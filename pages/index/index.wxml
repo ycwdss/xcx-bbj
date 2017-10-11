@@ -1,0 +1,81 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="header">
+        <view class="hd-list">
+            <view class="item-name">站点</view>
+            <view class="item-content">
+                <picker class="picker-wrap"
+                        bindchange="pickerSite"
+                        value="{{index}}"
+                        range="{{siteArray}}"
+                        range-key="warehouseName">
+                    <view class="picker">{{siteArray[index].warehouseName}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="hd-list">
+            <view class="item-name">生成日期</view>
+            <view class="item-content">
+                <picker class="picker-wrap" mode="date" value="{{date}}" start="2015-01-01" end="2050-12-01"
+                        bindchange="pickerStartDate">
+                    <view class="picker">{{startDate}}</view>
+                </picker>
+                <view class="to">To</view>
+                <picker class="picker-wrap" mode="date" value="{{date}}" start="2015-01-01" end="2050-12-01"
+                        bindchange="pickerEndDate">
+                    <view class="picker">{{endDate}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="hd-list">
+            <view class="item-name">ASN单号</view>
+            <view class="item-content asnFill">
+                <input placeholder="请输入ASN单编号" value="{{asnCode}}" bindinput="bindAsnCode"/>
+                <view class="delFill" wx:if="{{asnCode!==''}}" bindtap="bindDelAsnCode"><view>×</view></view>
+            </view>
+        </view>
+        <view class="hd-list">
+            <view class="item-name">关联单号</view>
+            <view class="item-content asnFill">
+                <input placeholder="请输入装车单/关联单编号" value="{{refOrderCode}}" bindinput="bindRefCode"/>
+                <view class="delFill" wx:if="{{refOrderCode!==''}}" bindtap="bindDelRefOrderCode"><view>×</view></view>
+            </view>
+        </view>
+        <view class="hd-list">
+            <view class="item-btn btn" bindtap="query">查询</view>
+        </view>
+    </view>
+    <view class="body">
+        <view class="bd-list" wx:if="{{!dataNull}}" wx:for="{{asnOrder}}" wx:key="index">
+            <view class="item-list">
+                <view class="item-name">ASN单号：</view>
+                <view class="item-content">
+                    <text selectable="true" class="asn-code">{{item.asnCode}}</text>
+                    <view class="asn-date greenColor">{{item.gmtCreate}}</view>
+                </view>
+            </view>
+            <view class="item-list">
+                <view class="item-name">关联单号：</view>
+                <text selectable="true" class="item-content">{{item.refOrderCode}}</text>
+            </view>
+            <view class="item-list">
+                <view class="item-name">状态：</view>
+                <text selectable="true"
+                      class="item-content {{item.orderStatus=='00'?'redColor':''||item.orderStatus=='30'?'orangeColor':''||item.orderStatus=='99'?'greenColor':''}}"
+                >{{item.orderStatusDesc}}
+                </text>
+            </view>
+            <view class="item-list">
+                <view class=" item-btn {{item.orderStatus=='00'?'redBgColor':''||item.orderStatus=='30'?'orangeBgColor':''||item.orderStatus=='99'?'greenBgColor':''}}"
+                      bindtap="bindResult"
+                      data-orderstatus="{{item.orderStatus}}"
+                      data-asnCode="{{item.asnCode}}"
+                      data-asnId="{{item.id}}"
+                >{{item.orderStatus=='00'?'开始收货':''||item.orderStatus=='30'?'继续收货':''||item.orderStatus=='99'?'查看详情':''}}
+                </view>
+            </view>
+        </view>
+        <view class="null" wx:if="{{dataNull}}">此站点暂无数据</view>
+    </view>
+    <view class="loadMore" wx:if="{{loadMore}}">{{loadMoreMsg}}</view>
+</view>

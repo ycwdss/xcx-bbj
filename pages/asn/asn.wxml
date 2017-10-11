@@ -1,0 +1,212 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="header">
+        <view class="hd-list">
+            <view class="item-name">ASN单号：</view>
+            <view class="item-content">
+                <text class="asn-code" selectable="true">{{asnCode}}</text>
+                <view class="asn-btn redBgColor btn" bindtap="bindOk">确认完成</view>
+            </view>
+        </view>
+        <view class="hd-list">
+            <view class="item-name" bindtap="scanCode"></view>
+            <view class="item-content">
+                <input class="asn-input"
+                       value="{{asnVal}}"
+                       bindinput="bindAsnVal"
+                       placeholder="请扫描或商品名称"/>
+                <view class="delFill" wx:if="{{asnVal!==''}}" bindtap="bindDelFill"><view>×</view></view>
+                <view class="asn-btn grayBgColor btn" bindtap="bindAsnDetail">查询</view>
+            </view>
+        </view>
+    </view>
+    <view class="body">
+        <view class="tab">
+            <view class="tab-item {{currentTab==index?'active':''}}"
+                  wx:for="{{asnDetail}}"
+                  wx:key=""
+                  data-index="{{index}}"
+                  bindtap="bindTab">
+                {{item.temp}}({{item.appAsnDetailEntities===null?0:item.appAsnDetailEntities.length}})
+            </view>
+        </view>
+        <swiper duration="300" current="{{currentTab}}" style="height:{{winHeight-150}}px" bindchange="bindSwiper">
+            <swiper-item wx:for="{{asnDetail}}" wx:key="key">
+                <view class="bd-list"
+                      wx:for="{{item.appAsnDetailEntities}}"
+                      wx:for-item="appItem"
+                      wx:key="">
+                    <view class="item-list">
+                        <view class="item-name">品名：</view>
+                        <view class="item-content sku-name" selectable="true">
+                            <text wx:if="{{appItem.isNew}}" class="sku-flag redColor" selectable="true">新品</text>{{appItem.skuName}}
+                        </view>
+                    </view>
+                    <view class="item-list">
+                        <view class="item-name">条码：</view>
+                        <text class="item-content" selectable="true">{{appItem.barcode}}</text>
+                    </view>
+                    <view class="item-list">
+                        <view class="item-single">
+                            <view class="item-name">发货量：</view>
+                            <view class="item-content">{{appItem.planReceiveQtyStr}}{{appItem.unitName}}</view>
+                        </view>
+                        <view class="item-single">
+                            <view class="item-name">已收好品：</view>
+                            <view class="item-content">{{appItem.actReceiveGoodQty}}{{appItem.receiveUnitName}}</view>
+                        </view>
+                    </view>
+                    <view class="item-list bad-received" wx:if="{{appItem.asnReceiveBadDetailDtoList.length>0}}">
+                        <view class="item-name">已收坏品：</view>
+                        <view class="item-br">
+                            <view class="br-list" wx:for="{{appItem.asnReceiveBadDetailDtoList}}" wx:key="">
+                                <view>{{item.receivedBadCount}}{{appItem.receiveUnitName}}</view>
+                                <view>{{item.reasonDesc}}</view>
+                                <view class="lookImg"
+                                      data-urls="{{item.urlAddressList}}"
+                                      bindtap="bindPreviewImg"
+                                >查看图片
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="item-list" wx:if="{{appItem.asnReceiveBadDetailDtoList.length==0}}">
+                        <view class="item-name">已收坏品：</view>
+                        <text class="item-content" selectable="true">{{appItem.actReceiveBadQty}}{{appItem.receiveUnitName}}</text>
+                    </view>
+                    <view class="item-list">
+                        <view class="item-name">待收数量：</view>
+                        <view class="item-content wait-receive"
+                              selectable="true">{{appItem.planReceiveQty-appItem.actReceiveBadQty-appItem.actReceiveGoodQty>0?appItem.planReceiveQty-appItem.actReceiveBadQty-appItem.actReceiveGoodQty:0}}{{appItem.receiveUnitName}}
+                    </view>
+                    </view>
+                    <view class="item-list">
+                        <view class="item-name">实收好品数：</view>
+                        <view class="item-content ">
+                            <input class="receive-num"
+                                   type="number"
+                                   bindinput="bindReceiveGoodNum"
+                                   data-id="{{appItem.id}}"
+                                   data-plannum="{{appItem.planReceiveQty-appItem.actReceiveBadQty-appItem.actReceiveGoodQty}}"
+                                   value="{{appItem.goodNum}}"/>{{appItem.receiveUnitName}}
+                        </view>
+                    </view>
+                    <view class="bad-area" >
+                        <view class="bad-list" wx:for="{{appItem.badReason}}" wx:key="index"  >
+                            <view class="single">
+                                <view class="item-name orangeColor">实收坏品数：</view>
+                                <view class="item-content">
+                                    <view class="bad-num">
+                                        <input class="bad-input"
+                                               type="number"
+                                               value="{{appItem.badNum[index]}}"
+                                               data-badindex="{{index}}"
+                                               data-id="{{appItem.id}}"
+                                               data-plannum="{{appItem.planReceiveQty-appItem.actReceiveBadQty-appItem.actReceiveGoodQty}}"
+                                               bindinput="bindReceiveBadNum"/>{{appItem.receiveUnitName}}
+                                    </view>
+                                    <view class="bad-reason">
+                                        <picker class="picker-wrap" bindchange="pickerReason"
+                                                value="{{item.index}}"
+                                                data-id="{{appItem.id}}"
+                                                data-badindex="{{index}}"
+                                                range="{{item.option}}">
+                                           {{item.option[item.index]}}
+                                        </picker>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="single">
+                                <view class="item-name orangeColor">坏品图片：</view>
+                                <view class="item-img">
+                                    <view class="img-show">
+                                        <block class="img-wrap" wx:for="{{appItem.badImages[index]}}" wx:for-item="image"
+                                               wx:for-index="id" wx:key="">
+                                            <view class="img">
+                                                <image class="img-element"
+                                                       wx:if="{{image.length>0}}"
+                                                       src="{{image}}"
+                                                       data-id="{{appItem.id}}"
+                                                       data-src="{{image}}"
+                                                       data-badindex="{{index}}"
+                                                       data-current="{{index}}"
+                                                       bindtap="previewImage"></image>
+                                                <view class="del"
+                                                      data-id="{{appItem.id}}"
+                                                      data-badimgindex="{{id}}"
+                                                      data-badindex="{{index}}"
+                                                      bindtap="bindDelImg"></view>
+                                            </view>
+                                        </block>
+                                    </view>
+                                    <view class="img-add">
+                                        <view class="img-inner"
+                                              bindtap="chooseImage"
+                                              data-id="{{appItem.id}}"
+                                              data-badindex="{{index}}"
+                                        ></view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+
+                    </view>
+                    <view class="item-list">
+                        <view class="item-add"
+                              data-id="{{appItem.id}}"
+                              bindtap="bindShowBad">
+                            添加坏品数量
+                        </view>
+                    </view>
+                    <view class="item-list item-diff">
+                        <view class="item-tip {{appItem.diffNum<0?'redColor':'greenColor'}}"
+                              wx:if="{{appItem.diffNum && appItem.diffNum!==0}}">
+                            差异:{{appItem.diffNum<0?'少':'多'}}{{appItem.diffNum<0?-appItem.diffNum:appItem.diffNum}}{{appItem.receiveUnitName}}
+                        </view>
+                        <view class="item-save btn greenBgColor"
+                              data-id="{{appItem.id}}"
+                              data-skuid="{{appItem.skuId}}"
+                              data-goodnum="{{appItem.goodNum}}"
+                              bindtap="bindSave">保存
+                        </view>
+                    </view>
+                </view>
+                <view class="bd-null" wx:if="{{item.appAsnDetailEntities==null||item.appAsnDetailEntities.length==0}}">该温区暂无商品！</view>
+            </swiper-item>
+        </swiper>
+    </view>
+    <view class="popup" wx:if="{{diff}}" wx:key="">
+        <view class="p-header">
+            本次收货有以下差异，请确认：
+        </view>
+        <view class="p-body">
+            <view class="p-item"
+                  wx:for="{{asnAllDiff}}"
+                  wx:if="{{item.diffNum!==0}}"
+                  wx:key="">
+                <view class="p-content">
+                    <view class="name-text "> 品名：</view>
+                    <view class="name-content">
+                        <view class="name-real">
+                            <text wx:if="{{item.isNew}}" class="sku-flag redColor">新品</text>{{item.skuName}}
+                        </view>
+                        <view class="name-code">（{{item.barcode}}）</view>
+                    </view>
+                </view>
+                <view class="p-content">
+                    <view class="num"> 发货量：{{item.purchaseCountStr}}{{item.unitName}}</view>
+                    <view class="num"> 实收量：{{item.receivedGoodCount+item.receivedBadCount}}{{item.receiveUnitName}}</view>
+                    <view class="num  {{item.diffNum<0?'redColor':'greenColor'}}">
+                        差异：{{item.diffNum<0?'少':'多'}}{{item.diffNum<0?-item.diffNum:item.diffNum}}{{item.receiveUnitName}}
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="p-footer">
+            <view class="btn grayBgColor" bindtap="bindCancel">取消</view>
+            <view class="btn redBgColor" bindtap="bindMake">确认收货差异，完成收货</view>
+        </view>
+    </view>
+
+
+</view>

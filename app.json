@@ -1,0 +1,35 @@
+{
+  "pages":[
+    "pages/login/login",
+    "pages/index/index",
+    "pages/detail/detail",
+    "pages/asn/asn",
+    "pages/my/my"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#20b907",
+    "navigationBarTitleText": "宝宝蕉",
+    "navigationBarTextStyle":"white"
+  },
+  "tabBar": {
+    "color":"#666",
+    "selectedColor":"#20b907",
+    "borderStyle":"white",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "收货单",
+      "iconPath":"images/index.png",
+      "selectedIconPath":"images/indexActive.png"
+    }, {
+      "pagePath": "pages/my/my",
+      "text": "我的",
+      "iconPath":"images/my.png",
+      "selectedIconPath":"images/myActive.png"
+    }]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  }
+}

@@ -1,0 +1,21 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="login">
+        <view class="form">
+            <view class="form-list">
+                <view class="form1">账户：</view>
+                <view class="form2">
+                    <input type="text" bindinput="bindUserName" placeholder="请输入账户"/>
+                </view>
+            </view>
+            <view class="form-list">
+                <view class="form1">密码：</view>
+                <view class="form2">
+                    <input type="password" bindinput="bindPassWord" placeholder="请输入密码"/>
+                </view>
+            </view>
+        </view>
+        <view class="btn greenBgColor" bindtap="bindLogin">登录</view>
+    </view>
+
+</view>

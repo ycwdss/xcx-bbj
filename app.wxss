@@ -1,0 +1,105 @@
+/**app.wxss**/
+
+page{
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  font-family: -apple-system-font,Helvetica Neue,sans-serif;
+  background-color: #ebebeb
+}
+/*颜色*/
+.orangeColor{
+  color: #ff9935;
+}
+.greenColor{
+  color: #20b907;
+}
+.redColor{
+  color: #ff3635;
+}
+.grayBgColor{
+  background-color: #666;
+  font-size: 32rpx;
+  color: #fff;
+}
+.redBgColor{
+  background-color: #ff3635;
+  font-size: 32rpx;
+  color: #fff;
+}
+.orangeBgColor{
+  background-color: #ff9935;
+  font-size: 32rpx;
+  color: #fff;
+}
+.greenBgColor{
+  background-color: #20b907;
+  font-size: 32rpx;
+  color: #fff;
+}
+
+.btn{
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #fff;
+  border-radius: 10rpx;
+}
+/*加载更多*/
+.loadMore{
+  padding: 30rpx 0;
+  font-size:30rpx;
+  color: #333;
+  text-align: center;
+}
+
+.visible{
+  visibility: hidden;
+}
+/*弹窗*/
+.toast {
+  width: 60%;
+  height: 80rpx;
+  line-height: 80rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  font-size: 30rpx;
+  color: #fff;
+  border-radius: 10rpx;
+  text-align: center;
+  -webkit-animation: popup 0.2s;
+  -o-animation: popup 0.2s;
+  animation: popup 0.2s;
+}
+
+@-webkit-keyframes popup {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes popup {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}

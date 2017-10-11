@@ -1,0 +1,15 @@
+
+.out{
+  padding-top: 200rpx;
+  text-align: center;
+}
+.weclome{
+  line-height: 100rpx;
+  font-size: 32rpx;
+  color: #333;
+}
+.out .btn{
+  width: 30%;
+  margin: 0 auto;
+  font-size: 32rpx;
+}

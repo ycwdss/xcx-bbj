@@ -1,0 +1,70 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="header">
+        <view class="hd-list">
+            <view class="item-name">ASN号：</view>
+            <view class="item-content">
+                <text class="asn-code">{{asnCode}}</text>
+                <view class="asn-btn">
+                    {{asnDetail.asnStatus=='00'?'初始化':''||asnDetail.asnStatus=='30'?'部分收货':''||asnDetail.asnStatus=='99'?'收货完成':''}}
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="body">
+        <view class="tab">
+            <view class="tab-item {{currentTab==index?'active':''}}"
+                  wx:for="{{asnDetail.asnReceiveDetails}}"
+                  wx:key=""
+                  data-index="{{index}}"
+                  bindtap="bindTab">
+                {{item.storageMethod}}({{item.receiveCount}})
+            </view>
+        </view>
+        <swiper duration="300" current="{{currentTab}}" style="height:{{winHeight-90}}px" bindchange="bindSwiper">
+            <swiper-item wx:for="{{asnDetail.asnReceiveDetails}}" wx:key="key">
+                <view class="bd-list" wx:for="{{item.receiveDetails}}"  wx:for-item="asnReceiveItem" wx:key="">
+                    <view class="item-list">
+                        <view class="item-name">品名：</view>
+                        <text class="item-content" selectable="true">{{asnReceiveItem.skuName}}</text>
+                    </view>
+                    <view class="item-list">
+                        <view class="item-name">条码：</view>
+                        <text class="item-content" selectable="true">{{asnReceiveItem.barcode}}</text>
+                    </view>
+                    <view class="item-list">
+                        <view class="item-single">
+                            <view class="item-name">发货量：</view>
+                            <view class="item-content">{{asnReceiveItem.purchaseCountStr}}{{asnReceiveItem.unitName}}</view>
+                        </view>
+                        <view class="item-single">
+                            <view class="item-name">已收好品：</view>
+                            <view class="item-content">{{asnReceiveItem.receivedGoodCount}}{{asnReceiveItem.receiveUnitName}}</view>
+                        </view>
+                    </view>
+                    <view class="item-list bad-received" wx:if="{{asnReceiveItem.receiveBadDetails.length>0}}">
+                        <view class="item-name">已收坏品：</view>
+                        <view class="item-br">
+                            <view class="br-list" wx:for="{{asnReceiveItem.receiveBadDetails}}" wx:key="">
+                                <view>{{item.receivedBadCount}}{{asnReceiveItem.receiveUnitName}}</view>
+                                <view>{{item.reasonDesc}}</view>
+                                <view class="lookImg {{item.urlAddressList.length===0?'visible':''}}"
+                                      data-urls="{{item.urlAddressList}}"
+                                      bindtap="bindPreviewImg"
+                                >查看图片
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="item-list">
+                        <view class="item-name">差异：</view>
+                        <text wx:if="{{asnReceiveItem.discrepantCount!==0}}"class="item-content {{asnReceiveItem.discrepantCount>0?'redColor':'greenColor'}} "
+                              selectable="true">{{asnReceiveItem.discrepantCount>0?'少':'多'}}{{asnReceiveItem.discrepantCount<0?-asnReceiveItem.discrepantCount:asnReceiveItem.discrepantCount}}{{asnReceiveItem.receiveUnitName}}
+                        </text>
+                        <text wx:if="{{asnReceiveItem.discrepantCount==0}}"class="item-content greenColor">无</text>
+                    </view>
+                </view>
+            </swiper-item>
+        </swiper>
+    </view>
+</view>

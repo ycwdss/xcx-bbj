@@ -1,0 +1,95 @@
+
+page {
+
+  background-color:#ebebeb;
+}
+
+.container {
+  position: relative;
+}
+
+.login {
+  width: 100%;
+  margin: 300rpx auto 0;
+}
+.form{
+  background-color: #fff;
+  position: relative;
+}
+.form:before,.form:after{
+  content: " ";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1rpx;
+  color: #d9d9d9;
+}
+.form:before{
+  top: 0;
+  border-top: 1rpx solid #d9d9d9;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+}
+.form:after{
+  bottom: 0;
+  border-bottom: 1rpx solid #d9d9d9;
+  -webkit-transform-origin: 0 100%;
+  transform-origin: 0 100%;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+}
+.form-list:last-child:before{
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 1rpx;
+  border-top: 1rpx solid #d9d9d9;
+  color: #d9d9d9;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  left: 0;
+}
+.form-list {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 10rpx 0;
+  margin: 0 20rpx;
+}
+
+.form-list .form1 {
+  width: 100rpx;
+  font-size: 28rpx;
+  color: #333;
+  text-align: left;
+}
+
+.form-list .form2 {
+  flex: 1;
+}
+
+.form-list .form2 input {
+  width: 90%;
+  border-radius: 10rpx;
+  padding: 10rpx;
+  font-size: 30rpx;
+  color: #333;
+}
+
+
+.btn {
+  width: 50%;
+  margin: 40rpx auto 0;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+}
+

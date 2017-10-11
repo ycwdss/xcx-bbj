@@ -1,0 +1,8 @@
+<!--logs.wxml-->
+<view class="container">
+  <view class="out">
+   <view class="weclome"> 欢迎来到宝宝蕉</view>
+    <view class="btn greenBgColor" bindtap="logOut">退出登录</view>
+  </view>
+
+</view>
